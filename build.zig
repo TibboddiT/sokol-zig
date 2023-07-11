@@ -24,6 +24,10 @@ pub const Config = struct {
 
 // build sokol into a static library
 pub fn buildSokol(b: *Builder, target: CrossTarget, optimize: Mode, config: Config, comptime prefix_path: []const u8) *LibExeObjStep {
+    _ = b.addModule("sokol", .{
+        .source_file = .{ .path = "src/sokol/sokol.zig" },
+    });
+
     const lib = b.addStaticLibrary(.{
         .name = "sokol",
         .target = target,
@@ -122,6 +126,9 @@ pub fn buildSokol(b: *Builder, target: CrossTarget, optimize: Mode, config: Conf
             }
         }
     }
+
+    b.installArtifact(lib);
+
     return lib;
 }
 
